@@ -1,0 +1,184 @@
+﻿@page "/Apiary"
+@inject NavigationManager NavigationManager
+@inject Radzen.DialogService DialogService
+
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Twoja Pasieka</PageTitle>
+
+<MudTabs Centered="true" Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6" Style="@($"background:{Colors.Amber.Accent3}")">
+    <MudTabPanel Text="Dodaj Ul">
+        <MudGrid Style="align-content: center">
+            <MudItem xs="12" sm="14">
+                <MudPaper Class="pa-4">
+                    <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                        <MudTextField T="string" Label="Nazwa Ula" Required="true" RequiredError="Nazwa Ula!" />
+                        <br>
+                        <h6> Kolor Matki </h6>
+                        <MudRadioGroup Style="align-items:center" T="string" Required="false">
+                            <MudRadio Style="@($"color:{Colors.Shades.White}")" Option="@("Biały")">Biały</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Yellow.Darken1}")" Option="@("Żółty")">Zółty</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Red.Darken1}")" Option="@("Czerwony")">Czerwony</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Green.Darken1}")" Option="@("Zielony")">Zielony</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Blue.Darken1}")" Option="@("Niebieski")">Niebieski</MudRadio>
+                        </MudRadioGroup>
+                        <select class="form-control d-flex" style="height:50px">
+                            <option value="" disabled selected>Wybierz liczbę ramek</option>
+                            @for (int i = 0; i > 100; i++)
+                            {
+                                <option value="">i</option>
+                            }
+                        </select>
+                            <select placeholder="Wybierz Gatunek" class="form-control d-flex" style="height:50px" title="Gatunek pszczół" itemid="null" @bind="@Wybrany_gatunek">
+                                <option value="" disabled selected>Wybierz gatunek pszczół</option>
+                                @foreach (var item in Gatunki)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <select placeholder="Wybierz Linię Hodowlaną" class="form-control d-flex" style="height:50px" title="Linia Hodowlana">
+                                @switch (Wybrany_gatunek)
+                                {
+                                    case "Rasa Środkowoeuropejska":
+                                        @foreach (var item in Rasa1)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    case "Rasa Kaukaska":
+                                        @foreach (var item in Rasa2)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    case "Rasa Kraińska":
+                                        @foreach (var item in Rasa3)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    case "Rasa Buckfast":
+                                        @foreach (var item in Rasa4)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </select>
+                        <h6> Wybierz kolor ula</h6>
+                        <input type="color" value="#fabb00" style="height:50px; width:60px"/>
+                        <div class="d-flex align-center justify-space-between mt-6">
+                            <MudTextField T="string" Label="Opis Ula" Required="false" />
+                        </div>
+                    </MudForm>
+                </MudPaper>
+                <MudPaper Class="pa-4 mt-4">
+                    <div class="d-flex align-center justify-space-between mt-6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form.Validate())" Class="mx-2">Dodaj ul</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=>form.Reset())" Class="mx-2">Resetuj</MudButton>
+                        </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+    <MudTabPanel Text="Dodaj Pasiekę">
+        <MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item,dropzone) => item.Identifier == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
+            <ChildContent>
+                <MudDropZone T="DropItem" Identifier="Drop Zone 1" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
+                    <MudText Typo="Typo.h6" Class="mb-4">Drop Zone 1</MudText>
+                </MudDropZone>
+                <MudDropZone T="DropItem" Identifier="Drop Zone 2" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
+                    <MudText Typo="Typo.h6" Class="mb-4">Drop Zone 2</MudText>
+                </MudDropZone>
+            </ChildContent>
+            <ItemRenderer>
+                <MudPaper Elevation="25" Class="pa-4 my-4">@context.Name</MudPaper>
+            </ItemRenderer>
+        </MudDropContainer>
+    </MudTabPanel>
+    <MudTabPanel Text="Edytuj Ul">
+
+    </MudTabPanel>
+    <MudTabPanel Text="Edytuj Pasiekę">
+
+    </MudTabPanel>
+</MudTabs>
+
+@code {
+
+    public string[] Gatunki =
+        {
+            "Rasa Środkowoeuropejska",
+            "Rasa Kaukaska",
+            "Rasa Kraińska",
+            "Rasa Buckfast"
+        };
+    public string[] Rasa1 =
+        {
+            "Asta",
+            "Kampinowska",
+            "Północna",
+            "Norweska",
+            "Inna"
+        };
+    public string[] Rasa2 =
+    {
+            "KBrz",
+            "Woźnica",
+            "KPW",
+            "Pb",
+            "PwK",
+            "W",
+            "M",
+            "KP",
+            "Puławska",
+            "Inna"
+        };
+    public string[] Rasa3 =
+    {
+            "Podgórska",
+            "Beskidka",
+            "Dobra",
+            "Kujawska",
+            "Kortówka",
+            "Alpejka",
+            "Inna"
+        };
+    public string[] Rasa4 =
+    {
+            "Denmark",
+            "Inna"
+        };
+    public string Wybrany_gatunek { get; set; }
+    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
+    {
+        dropItem.Item.Identifier = dropItem.DropzoneIdentifier;
+    }
+
+    private List<DropItem> _items = new()
+    {
+        new DropItem() { Name = "Drag me!", Identifier = "Drop Zone 1" },
+        new DropItem() { Name = "Or me!", Identifier = "Drop Zone 2" },
+        new DropItem() { Name = "Just Mud", Identifier = "Drop Zone 1" },
+    };
+
+    public class DropItem
+    {
+        public string Name { get; init; }
+        public string Identifier { get; set; }
+    }
+    bool success;
+    string[] errors = { };
+    MudTextField<string> pwField1;
+    MudForm form;
+    void Refresh_Linia()
+    {
+    }
+    void OnChange(object value)
+    {
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+    }
+}

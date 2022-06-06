@@ -1,0 +1,80 @@
+﻿@page "/tasks"
+
+<PageTitle>Zadania</PageTitle>
+<MudGrid Spacing="@spacing" Justify="Justify.Center">
+    <MudItem>
+        <MudCard Style="width: 270px">
+            <MudCardMedia Image="/images/task1.jpeg" Height="200"/>
+            <MudCardContent>
+                <MudText Typo="Typo.h5">Przegląd ula</MudText>
+                <RadzenDatePicker Style="width: 260px" TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+                <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
+                <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelowy Ul" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+    <MudItem>
+        <MudCard>
+            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardContent>
+                <MudText Typo="Typo.h5">Wymiana ramek</MudText>
+                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+    <MudItem>
+        <MudCard>
+            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardContent>
+                <MudText Typo="Typo.h5">Karmienie</MudText>
+                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+    <MudItem>
+        <MudCard>
+            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardContent>
+                <MudText Typo="Typo.h5">Wymiana matki</MudText>
+                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+    <MudItem>
+        <MudCard>
+            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardContent>
+                <MudText Typo="Typo.h5">Miodobranie</MudText>
+                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    const int spacing = 5;
+    string[] Pasieki =
+        {
+            "Pasieka 1",
+            "Pasieka 2",
+            "Pasieka 3"
+        };
+    void OnChange(DateTime? value, string name, string format)
+    {
+    }
+}
